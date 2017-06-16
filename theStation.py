@@ -11,7 +11,7 @@ KEY="Something16chars"
 TIMEOUT=3
 TOSLEEP=0.1
 
-radio = RFM69.RFM69(RF69_915MHZ, NODE, NET, True)
+radio = RFM69.RFM69(RF69_433MHZ, NODE, NET, True)
 print "class initialized"
 
 print "reading all registers"
