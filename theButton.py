@@ -14,6 +14,9 @@ KEY="Something16chars"
 msg = "Pressed"
 TIMEOUT=3
 TOSLEEP=0.1
+radio = RFM69.RFM69(RF69_433MHZ, NODE, NET, True)
+print "class initialized"
+
 # Use the Broadcom SOC Pin numbers  
 # Setup the Button Pin with Internal pullups enabled and PIN in reading mode.  
 GPIO.setmode(GPIO.BCM)  
@@ -23,9 +26,6 @@ def Transmit(channel):
 	print "Button pressed. Transmitting: " + msg
     	if radio.sendWithRetry(1, msg, 3, 20):
         	print "Ack recieved"
-
-radio = RFM69.RFM69(RF69_915MHZ, NODE, NET, True)
-print "class initialized"
 
 print "reading all registers"
 results = radio.readAllRegs()
