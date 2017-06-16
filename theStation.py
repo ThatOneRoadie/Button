@@ -5,7 +5,7 @@ from RFM69registers import *
 import datetime
 import time
 
-NODE=2
+NODE=1
 NET=1
 KEY="Something16chars"
 TIMEOUT=3
@@ -35,13 +35,6 @@ print "starting loop..."
 sequence = 0
 while True:
 
-    msg = "I'm radio %d: %d" % (NODE, sequence)
-    sequence = sequence + 1
-
-    print "tx to radio 1: " + msg
-    if radio.sendWithRetry(1, msg, 3, 20):
-        print "ack recieved"
-
     print "start recv..."
     radio.receiveBegin()
     timedOut=0
@@ -51,15 +44,16 @@ while True:
 	      if timedOut > TIMEOUT:
             print "timed out waiting for recv"
             break
-
-    print "end recv..."
-    print " *** %s from %s RSSI:%s" % ("".join([chr(letter) for letter in radio.DATA]), radio.SENDERID, radio.RSSI)
-
     if radio.ACKRequested():
         print "sending ack..."
         radio.sendACK()
     else:
         print "ack not requested..."
+    print "end recv..."
+    data = "".join([chr(letter) for letter in radio.DATA])
+    
+# Need an if then loop here for MPC control? Or just play/pause music if data = Pressed (2 sec debounce on the other end)... Propbably MPC/MPD I think
+# Loop should react to data being "Pressed", then reset data to an empty string and sleep for 2 sec.
 
 print "shutting down"
 radio.shutdown()
