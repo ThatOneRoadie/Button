@@ -47,6 +47,8 @@ radio.encrypt(KEY)
 # Add Falling Edge Callback
 GPIO.add_event_detect(pin, GPIO.FALLING, callback = Transmit, bouncetime = 2000) 
 
+# To add: Enable ARMED LED under button here.
+
 print "starting loop to wait"
 sequence = 0
 # Now wait!  
