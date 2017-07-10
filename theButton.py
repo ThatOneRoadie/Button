@@ -7,10 +7,11 @@ import time
 import RPi.GPIO as GPIO
 
 #Set pin and node!
-pin=21
+pin=12
+ledpin=11
 NODE=2
 NET=1
-KEY="Something16chars"
+KEY="Something16Chars"
 msg = "Pressed"
 TIMEOUT=3
 TOSLEEP=0.1
@@ -19,12 +20,13 @@ print "class initialized"
 
 # Use the Broadcom SOC Pin numbers  
 # Setup the Button Pin with Internal pullups enabled and PIN in reading mode.  
-GPIO.setmode(GPIO.BCM)  
+#GPIO.setmode(GPIO.BCM)  
 GPIO.setup(pin, GPIO.IN, pull_up_down = GPIO.PUD_UP)  
+GPIO.setup(ledpin, GPIO.OUT)
 
 def Transmit(channel):
 	print "Button pressed. Transmitting: " + msg
-    	if radio.sendWithRetry(1, msg, 3, 20):
+    	if radio.sendWithRetry(1, msg, 1, 5):
         	print "Ack recieved"
 
 print "reading all registers"
@@ -45,15 +47,18 @@ print "setting encryption"
 radio.encrypt(KEY)
 
 # Add Falling Edge Callback
-GPIO.add_event_detect(pin, GPIO.FALLING, callback = Transmit, bouncetime = 2000) 
-
-# To add: Enable ARMED LED under button here.
+GPIO.add_event_detect(pin, GPIO.FALLING, callback = Transmit, bouncetime = 5000) 
 
 print "starting loop to wait"
 sequence = 0
 # Now wait!  
 while 1:  
-    time.sleep(1)  
+#    print "LED On"
+    GPIO.output(ledpin,GPIO.HIGH)
+    time.sleep(0.5)  
+#    print "LED Off"
+    GPIO.output(ledpin,GPIO.LOW)
+    time.sleep(0.5)
 #while True:
 #
 #   
